@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.card-header {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.otp-input {
+    letter-spacing: 10px;
+    font-weight: bold;
+}

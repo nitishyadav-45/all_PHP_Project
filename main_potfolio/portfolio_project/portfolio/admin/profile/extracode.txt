@@ -1,0 +1,31 @@
+<?php
+require_once '../../includes/config.php';
+require_once '../../includes/auth.php';
+require_once '../../includes/functions.php';
+checkLogin();
+
+$profile = getProfile($pdo);
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = sanitize($_POST['name']);
+    $title = sanitize($_POST['title']);
+    $about_me = $_POST['about_me'];
+    $email = sanitize($_POST['email']);
+    $phone = sanitize($_POST['phone']);
+    $address = sanitize($_POST['address']);
+
+    $facebook = isset($_POST['facebook']) ? $_POST['facebook'] : '';
+    $twitter = isset($_POST['twitter']) ? $_POST['twitter'] : '';
+    $instagram = isset($_POST['instagram']) ? $_POST['instagram'] : '';
+    $linkedin = isset($_POST['linkedin']) ? $_POST['linkedin'] : '';
+    $github = isset($_POST['github']) ? $_POST['github'] : '';
+
+    
+    $stmt = $pdo->prepare("UPDATE profile SET name = ?, title = ?, about_me = ?, email = ?, phone = ?, address = ? WHERE id = 1");
+    if ($stmt->execute([$name, $title, $about_me, $email, $phone, $address])) {
+        $message = '<div class="alert alert-success">Profile updated successfully!</div>';
+        $profile = getProfile($pdo);
+    }
+}
+?>

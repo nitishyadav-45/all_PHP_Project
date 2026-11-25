@@ -1,0 +1,85 @@
+<?php
+require_once 'includes/config.php';
+require_once 'includes/functions.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = sanitize($_POST['name']);
+    $email = sanitize($_POST['email']);
+    $phone_no = sanitize($_POST['phone_no']);
+    $subject = sanitize($_POST['subject']);
+    $message = sanitize($_POST['message']);
+
+    if (!empty($name) && !empty($email) && !empty($subject) && !empty($message)) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$name, $email, $subject, $message]);
+            
+            echo "<script>alert('Thank you! Your message has been sent.'); window.location.href='index.php';</script>";
+        } catch (PDOException $e) {
+            echo "<script>alert('Sorry, something went wrong. Please try again later.'); window.location.href='index.php';</script>";
+        }
+    } else {
+        echo "<script>alert('Please fill in all fields.'); window.location.href='index.php';</script>";
+    }
+} else {
+    header("Location: index.php");
+    exit();
+}
+?>
+
+
+
+<form id="contactForm" class="lg:col-span-3 glass rounded-3xl p-8 reveal"
+                    onsubmit="return handleSubmit(event)">
+                    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="text-sm text-gray-400 mb-2 block">Your Name</label>
+                            <input type="text" required class="input-field w-full px-4 py-3 rounded-xl text-white"
+                                placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label class="text-sm text-gray-400 mb-2 block">Email Address</label>
+                            <input type="email" required class="input-field w-full px-4 py-3 rounded-xl text-white"
+                                placeholder="abcde@example.com">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="text-sm text-gray-400 mb-2 block">Subject</label>
+                        <input type="text" required class="input-field w-full px-4 py-3 rounded-xl text-white"
+                            placeholder="Project discussion">
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                        <label class="text-sm text-gray-400 mb-2 block">Budget Range</label>
+                        <select class="input-field w-full px-4 py-3 rounded-xl text-white">
+                            <option style="background:#13131c">Select budget</option>
+                            <option style="background:#13131c">500 Rs - 1,000 Rs</option>
+                            <option style="background:#13131c">1,000 Rs - 5,000 Rs</option>
+                            <option style="background:#13131c">5,000 Rs - 10,000 Rs</option>
+                            <option style="background:#13131c">10,000 Rs+</option>
+                        </select>
+                            </div>
+
+                            <div>
+                            <label class="text-sm text-gray-400 mb-2 block">Phone Number</label>
+                            <input type="phone_no" required class="input-field w-full px-4 py-3 rounded-xl text-white"
+                                placeholder="91+ 1234567890">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="text-sm text-gray-400 mb-2 block">Message</label>
+                        <textarea required rows="5"
+                            class="input-field w-full px-4 py-3 rounded-xl text-white resize-none"
+                            placeholder="Tell me about your project..."></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="btn-primary w-full py-4 rounded-xl inline-flex items-center justify-center gap-2 font-semibold">
+                        <span>Send Message</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>

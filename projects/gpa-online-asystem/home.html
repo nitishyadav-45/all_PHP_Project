@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Attendance System | GP Atraulia</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* --- GLOBAL VARIABLES & RESET --- */
+        /* :root {
+            --primary-color: #6f42c1; 
+            --secondary-color: #dc3545; 
+            --accent-color: #ffc107; 
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-gray: #d1d1d1;
+            --text-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-gray);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }*/
+
+        /* --- SCROLLBAR CUSTOMIZATION --- */
+        /*::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color); 
+        }*/
+
+        /* --- NAVBAR --- */
+        /*.navbar {
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            padding: 15px 0;
+            transition: all 0.4s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+
+        .nav-link {
+            color: var(--text-gray) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn-login-nav {
+            background-color: var(--primary-color);
+            color: white !important;
+            border-radius: 25px;
+            padding: 8px 25px;
+            border: none;
+        }
+
+        .btn-login-nav:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }*/
+
+        /* --- HERO SLIDER --- */
+        .carousel-item {
+            height: 85vh;
+            min-height: 500px;
+        }
+
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+            /* Darkens image for better text visibility */
+        }
+
+        .carousel-caption {
+            bottom: 30%;
+            z-index: 2;
+        }
+
+        .carousel-caption h5 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s;
+        }
+
+        .carousel-caption p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s;
+        }
+
+        /* --- ABOUT SECTION (Main Bat Section) --- */
+        .about-section {
+            padding: 80px 0;
+            background-color: var(--card-bg);
+            position: relative;
+        }
+
+        .about-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-color);
+        }
+
+        .about-img-wrapper img {
+            width: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .about-img-wrapper:hover img {
+            transform: scale(1.1);
+        }
+
+        .section-title {
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: var(--secondary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+        }
+
+        /* --- FEATURES CARDS --- */
+        .features-section {
+            padding: 80px 0;
+            background: var(--dark-bg);
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid #333;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        /* --- LOGIN PORTAL SECTION --- */
+        .login-section {
+            padding: 80px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .login-card {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s;
+        }
+
+        .login-card:hover {
+            background: rgba(111, 66, 193, 0.2);
+            /* Purple tint on hover */
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-student {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-teacher {
+            background: var(--secondary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-admin {
+            background: var(--accent-color);
+            border: none;
+            color: #121212;
+        }
+
+        .btn-student:hover {
+            background: #5a32a3;
+        }
+
+        .btn-teacher:hover {
+            background: #b02a37;
+        }
+
+        .btn-admin:hover {
+            background: #d39e00;
+        }
+
+        /* --- STATS SECTION --- */
+        .stats-section {
+            padding: 60px 0;
+            background-color: var(--card-bg);
+            border-top: 1px solid #333;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* --- NOTICE BOARD SECTION --- */
+        .notice-section {
+            padding: 80px 0;
+            background-color: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+
+        .notice-box {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            height: 400px;
+            /* Fixed height */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .notice-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .marquee-container {
+            height: 320px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-content {
+            position: absolute;
+            width: 100%;
+            animation: scrollUp 15s linear infinite;
+        }
+
+        .notice-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .notice-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+            cursor: pointer;
+        }
+
+        .notice-date {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .notice-text {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Stops animation on hover */
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollUp {
+            0% {
+                top: 100%;
+            }
+
+            100% {
+                top: -150%;
+            }
+
+            /* Adjust based on content length */
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #000;
+            padding: 60px 0 20px;
+            color: #888;
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #888;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background: #222;
+            color: white;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: rotate(360deg);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            border: 2px solid #333;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .carousel-caption h5 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                text-align: center;
+                margin: 0 auto 30px auto;
+                display: block;
+            }
+
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .about-text {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-university fa-lg"></i>
+                GP <span>ATRAULIA</span>
+            </a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About System</a></li>
+                    <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#login">Login Portal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item ms-2">
+                        <a href="#login" class="btn btn-login-nav">Attendance Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1986&auto=format&fit=crop"
+                        class="d-block w-100" alt="College Building">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Government Polytechnic Atraulia</h5>
+                        <p>Empowering Future Engineers with Digital Attendance Solutions.</p>
+                        <a href="#about" class="btn btn-primary btn-lg rounded-pill px-5">Learn More</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop"
+                        class="d-block w-100" alt="Students in Class">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Smart Attendance System</h5>
+                        <p>Real-time tracking, transparent records, and secure data management.</p>
+                        <a href="#login" class="btn btn-danger btn-lg rounded-pill px-5">Login Now</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop"
+                        class="d-block w-100" alt="Technology">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Seamless Integration</h5>
+                        <p>Accessible on any device. Monitor your progress from anywhere.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 about-text">
+                    <h2 class="section-title">About The System</h2>
+                    <h4 class="text-white mb-3">Digital Initiative for Smart Education</h4>
+                    <p class="lead">
+                        Government Polytechnic, Atraulia, Azamgarh ने छात्रों और शिक्षकों के लिए एक उन्नत <strong>Online
+                            Attendance System</strong> पेश किया है।
+                    </p>
+                    <p>
+                        यह पोर्टल न केवल उपस्थिति दर्ज करता है, बल्कि पारदर्शिता (transparency) और सटीकता (accuracy) भी
+                        सुनिश्चित करता है। अब कागजी कार्रवाई की कोई आवश्यकता नहीं है। यह प्रणाली पूरी तरह से सुरक्षित है
+                        और किसी भी मोबाइल, टैबलेट या कंप्यूटर पर आसानी से खुल सकती है।
+                    </p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> 100% पेपरलेस और डिजिटल।
+                        </li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> रीयल-टाइम रिपोर्ट जनरेशन।
+                        </li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> अभिभावकों के लिए एसएमएस
+                            अलर्ट सुविधा।</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline-light mt-3">Read Documentation</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop"
+                            alt="Dashboard Preview">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Key Features</h2>
+                <p>Designed for efficiency, security, and ease of use.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt feature-icon"></i>
+                        <h5>Fully Responsive</h5>
+                        <p>Whether you use a smartphone, tablet, or laptop, the interface adapts perfectly to your
+                            screen size.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <i class="fas fa-user-shield feature-icon"></i>
+                        <h5>Secure Login</h5>
+                        <p>Encrypted authentication for Students, Teachers, and Admin to ensure data privacy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h5>Analytics Dashboard</h5>
+                        <p>Visual graphs and monthly reports to track attendance percentage instantly.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <i class="fas fa-bell feature-icon"></i>
+                        <h5>Instant Notifications</h5>
+                        <p>Get notified about low attendance or holiday announcements directly on your dashboard.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <i class="fas fa-file-export feature-icon"></i>
+                        <h5>Export Reports</h5>
+                        <p>Teachers can download attendance sheets in PDF or Excel format with a single click.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <i class="fas fa-map-marker-alt feature-icon"></i>
+                        <h5>Geo-Tagging</h5>
+                        <p>Ensures attendance is marked only within the college campus (Atraulia) premises.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="stat-number">1500+</div>
+                    <p>Students</p>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="stat-number">50+</div>
+                    <p>Faculty</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-number">5</div>
+                    <p>Departments</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-number">100%</div>
+                    <p>Digitalized</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="login" class="login-section">
+        <div class="container">
+            <div class="text-center mb-5 text-white">
+                <h2 class="fw-bold">Select Your Role</h2>
+                <p>Please login to access your dashboard.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="login-card">
+                        <div class="mb-3">
+                            <i class="fas fa-user-graduate fa-4x text-light"></i>
+                        </div>
+                        <h4 class="text-white">Student Portal</h4>
+                        <p class="text-muted">Check your daily attendance, view history, and download reports.</p>
+                        <button class="btn login-btn btn-student">Student Login</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="login-card">
+                        <div class="mb-3">
+                            <i class="fas fa-chalkboard-teacher fa-4x text-light"></i>
+                        </div>
+                        <h4 class="text-white">Faculty Portal</h4>
+                        <p class="text-muted">Mark attendance, manage students, and generate class reports.</p>
+                        <button class="btn login-btn btn-teacher">Teacher Login</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="login-card">
+                        <div class="mb-3">
+                            <i class="fas fa-user-cog fa-4x text-light"></i>
+                        </div>
+                        <h4 class="text-white">Admin Portal</h4>
+                        <p class="text-muted">Manage system settings, add users, and oversee all data.</p>
+                        <button class="btn login-btn btn-admin">Admin Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="notice-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <h2 class="section-title">Latest Updates</h2>
+                    <p class="mb-4">छात्रों और शिक्षकों के लिए महत्वपूर्ण सूचनाएं यहाँ देखें। परीक्षा, छुट्टियों और
+                        असाइनमेंट की जानकारी के लिए नियमित रूप से चेक करें।</p>
+
+                    <div class="list-group bg-dark">
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                            <i class="fas fa-calendar-alt text-warning me-2"></i> Exam Schedule 2024
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                            <i class="fas fa-file-pdf text-danger me-2"></i> Download Syllabus
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                            <i class="fas fa-images text-info me-2"></i> College Gallery
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                            <i class="fas fa-envelope-open-text text-success me-2"></i> Principal's Desk
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="notice-box">
+                        <div class="notice-header">
+                            <span><i class="fas fa-bullhorn me-2"></i> Notice Board</span>
+                            <span class="badge bg-danger">New</span>
+                        </div>
+
+                        <div class="marquee-container">
+                            <div class="marquee-content">
+                                <div class="notice-item">
+                                    <span class="notice-date"><i class="far fa-clock"></i> 25 Oct, 2024</span>
+                                    <p class="notice-text">Final Year students attendance submission deadline extended
+                                        till 30th Oct.</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span class="notice-date"><i class="far fa-clock"></i> 24 Oct, 2024</span>
+                                    <p class="notice-text">Diwali Holidays announced from 1st Nov to 5th Nov. College
+                                        will reopen on 6th Nov.</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span class="notice-date"><i class="far fa-clock"></i> 20 Oct, 2024</span>
+                                    <p class="notice-text">Guest Lecture on "AI in Engineering" by Dr. R.K. Singh on
+                                        Monday in Seminar Hall.</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span class="notice-date"><i class="far fa-clock"></i> 18 Oct, 2024</span>
+                                    <p class="notice-text">Scholarship forms are available in the office. Last date to
+                                        apply is approaching.</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span class="notice-date"><i class="far fa-clock"></i> 15 Oct, 2024</span>
+                                    <p class="notice-text">Library card renewal process has started for 2nd Year
+                                        students.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-logo">GP ATRAULIA</div>
+                    <p>Government Polytechnic Atraulia, Azamgarh is committed to providing technical education with
+                        modern standards. This attendance system is a step towards a digital campus.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="text-white mb-3">Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#login">Login</a></li>
+                        <li><a href="#">Syllabus</a></li>
+                        <li><a href="#">Results</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-white mb-3">Contact Us</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><i class="fas fa-map-marker-alt me-2 text-warning"></i> Atraulia, Azamgarh, Uttar Pradesh,
+                            India - 223223</li>
+                        <li><i class="fas fa-phone me-2 text-warning"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-envelope me-2 text-warning"></i> info@gpatraulia.ac.in</li>
+                        <li><i class="fas fa-clock me-2 text-warning"></i> Mon - Sat: 9:00 AM - 5:00 PM</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-white mb-3">Location</h5>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.666607675567!2d82.9555!3d26.3265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDE5JzM1LjQiTiA4MsKwNTcnMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                            allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2024 Government Polytechnic Atraulia. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Designed for Final Year Project</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Navbar Scrolled Effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 0';
+                navbar.style.backgroundColor = 'rgba(18, 18, 18, 1)'; // Solid dark
+            } else {
+                navbar.style.padding = '15px 0';
+                navbar.style.backgroundColor = 'rgba(18, 18, 18, 0.95)'; // Slight transparency
+            }
+        });
+
+        // Initialize Tooltips (if any)
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

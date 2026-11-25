@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Govt. Polytechnic</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #1a1a2e;
+            --bg-sidebar: #16213e;
+            --bg-card: #24243e;
+            --primary-color: #6C63FF;
+            --banner-gradient: linear-gradient(135deg, #8a2be2, #6C63FF);
+            --text-light: #e0e0e0;
+            --text-muted: #8c8c9e;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .user-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background-color: #00e676;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 10px rgba(0,230,118,0.3);
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            padding: 12px 20px;
+            margin: 4px 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; }
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(108, 99, 255, 0.1);
+            color: #fff;
+        }
+        .nav-link.active { border-left: 4px solid var(--primary-color); }
+
+        .notification-dot {
+            width: 8px; height: 8px;
+            background-color: #ff4757;
+            border-radius: 50%;
+            margin-left: auto;
+        }
+
+        /* --- Main Content Area --- */
+        .main-wrapper {
+            flex-grow: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: all 0.3s;
+            width: calc(100% - 260px);
+        }
+
+        /* --- Top Navbar --- */
+        .top-navbar {
+            background-color: var(--bg-sidebar);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .search-bar {
+            background-color: var(--bg-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 20px;
+            padding: 8px 20px;
+            width: 300px;
+        }
+        .search-bar::placeholder { color: var(--text-muted); }
+
+        .top-icons .btn-icon {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -5px; right: -5px;
+            background-color: #ff4757;
+            color: white;
+            font-size: 0.6rem;
+            padding: 3px 6px;
+            border-radius: 50%;
+        }
+
+        .real-time-clock {
+            background-color: rgba(108, 99, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Banner --- */
+        .greeting-banner {
+            background: var(--banner-gradient);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);
+        }
+
+        /* --- Stats Cards --- */
+        .stat-card {
+            background-color: var(--bg-card);
+            border-radius: 15px;
+            padding: 20px;
+            height: 100%;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        
+        .stat-icon {
+            width: 45px; height: 45px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-bottom: 15px; color: #fff;
+        }
+
+        .badge-trend { font-size: 0.75rem; padding: 5px 10px; border-radius: 15px; display: inline-block; margin-top: 10px; }
+
+        /* --- Footer (Pushed to bottom) --- */
+        footer {
+            margin-top: auto; /* This pushes the footer to the bottom */
+            padding: 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; width: 100%; }
+            .search-bar { display: none; } /* Hide search on mobile for space */
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-graduation-cap logo-icon"></i>
+            <h6 class="mb-0 text-white fw-bold">Govt. Polytechnic</h6>
+            <small class="text-muted" style="font-size: 0.7rem;">Atraulia, Azamgarh (U.P.)</small>
+        </div>
+        
+        <div class="user-profile">
+            <div class="avatar">RS</div>
+            <h6 class="text-white mb-0">Rahul Sharma</h6>
+            <small class="text-muted" style="font-size: 0.7rem;">Roll No: 2024CS045<br>Computer Science & Engg. | 3rd Sem</small>
+        </div>
+
+        <div class="mt-3">
+            <small class="text-muted px-4" style="font-size: 0.65rem; letter-spacing: 1px;">MAIN MENU</small>
+            <a href="#" class="nav-link active text-decoration-none mt-2"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-clipboard-user"></i> My Attendance <span class="notification-dot"></span></a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-calendar-days"></i> Timetable</a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-book-open"></i> Subjects</a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-chart-simple"></i> Reports</a>
+            
+            <small class="text-muted px-4 mt-4 d-block" style="font-size: 0.65rem; letter-spacing: 1px;">OTHERS</small>
+            <a href="#" class="nav-link text-decoration-none mt-2"><i class="fa-solid fa-bell"></i> Notifications <span class="notification-dot"></span></a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-download"></i> Downloads</a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-gear"></i> Profile Settings</a>
+            <a href="#" class="nav-link text-decoration-none"><i class="fa-solid fa-circle-question"></i> Help & Support</a>
+            <a href="#" class="nav-link text-decoration-none text-danger mt-3"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        
+        <header class="top-navbar">
+            <button class="btn btn-icon d-lg-none" id="menu-toggle" style="background: var(--bg-main); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <input type="text" class="form-control search-bar d-none d-md-block" placeholder="Search subjects, teachers, reports...">
+            
+            <div class="top-icons d-flex align-items-center">
+                <div class="real-time-clock me-3">
+                    <i class="fa-regular fa-clock"></i> <span id="clock">00:00:00</span>
+                </div>
+                <div class="btn-icon"><i class="fa-regular fa-bell"></i><span class="badge-count">5</span></div>
+                <div class="btn-icon"><i class="fa-regular fa-envelope"></i><span class="badge-count">3</span></div>
+                <div class="btn-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></div>
+            </div>
+        </header>
+
+        <div class="container-fluid p-4 flex-grow-1">
+            
+            <div class="greeting-banner">
+                <div>
+                    <h2 class="text-white fw-bold mb-1">👋 Good Morning, Rahul!</h2>
+                    <p class="text-white-50 mb-0" style="font-size: 0.9rem;">Welcome back! You have 4 classes today. Your attendance is looking great! Keep it up!</p>
+                </div>
+                <div class="text-end text-white d-none d-sm-block">
+                    <h1 class="fw-bold mb-0 lh-1" id="date-num">01</h1>
+                    <small id="date-month-year">Jan 2025</small><br>
+                    <small class="text-white-50" id="date-day">Monday</small>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(108, 99, 255, 0.2); color: #6C63FF;"><i class="fa-regular fa-calendar-check"></i></div>
+                        <p class="text-muted mb-1" style="font-size: 0.85rem;">Total Attendance</p>
+                        <h2 class="text-white fw-bold mb-0">0%</h2>
+                        <span class="badge-trend" style="background: rgba(0, 230, 118, 0.1); color: #00e676;"><i class="fa-solid fa-arrow-up"></i> +2.5% this month</span>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(0, 230, 118, 0.2); color: #00e676;"><i class="fa-solid fa-check-double"></i></div>
+                        <p class="text-muted mb-1" style="font-size: 0.85rem;">Classes Attended</p>
+                        <h2 class="text-white fw-bold mb-0">0</h2>
+                        <span class="badge-trend" style="background: rgba(0, 230, 118, 0.1); color: #00e676;"><i class="fa-solid fa-arrow-up"></i> +6 this week</span>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(255, 71, 87, 0.2); color: #ff4757;"><i class="fa-solid fa-xmark"></i></div>
+                        <p class="text-muted mb-1" style="font-size: 0.85rem;">Classes Missed</p>
+                        <h2 class="text-white fw-bold mb-0">0</h2>
+                        <span class="badge-trend" style="background: rgba(255, 71, 87, 0.1); color: #ff4757;"><i class="fa-solid fa-arrow-down"></i> -3 from last month</span>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(255, 165, 2, 0.2); color: #ffa502;"><i class="fa-solid fa-book"></i></div>
+                        <p class="text-muted mb-1" style="font-size: 0.85rem;">Total Subjects</p>
+                        <h2 class="text-white fw-bold mb-0">0</h2>
+                        <span class="badge-trend" style="background: rgba(0, 230, 118, 0.1); color: #00e676;"><i class="fa-solid fa-star"></i> All Active</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <i class="fa-solid fa-shield-halved text-primary"></i> &copy; <span id="current-year">2025</span> <strong>Online Attendance System</strong> | Government Polytechnic, Atraulia, Azamgarh (U.P.) | Developed with ❤️ | All Rights Reserved
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 1. Sidebar Toggle Logic for Mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // 2. Real-Time Clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('clock').innerText = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 3. Dynamic Date for Banner & Footer
+        function setDateInfo() {
+            const now = new Date();
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            
+            // Format to keep two digits for date (e.g., 01, 05)
+            const dateNum = String(now.getDate()).padStart(2, '0');
+            
+            document.getElementById('date-num').innerText = dateNum;
+            document.getElementById('date-month-year').innerText = `${months[now.getMonth()]} ${now.getFullYear()}`;
+            document.getElementById('date-day').innerText = days[now.getDay()];
+            document.getElementById('current-year').innerText = now.getFullYear();
+        }
+        setDateInfo();
+
+        // 4. Full Screen Toggle
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

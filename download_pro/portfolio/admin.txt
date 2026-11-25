@@ -1,0 +1,71 @@
+USE `portfolio_db`;
+
+-- 1. डिफ़ॉल्ट एडमिन यूजर जोड़ना (Password: admin)
+INSERT INTO `users` (
+    `id`, `name`, `email`, `password`, `title`, `description`, 
+    `profile_image`, `about_image`, `about_content_short`, `about_content_long`, 
+    `projects_done`, `happy_clients`, `years_experience`, `location`, 
+    `phone`, `working_hours`, `facebook_link`, `twitter_link`, 
+    `instagram_link`, `linkedin_link`, `github_link`
+) VALUES (
+    1,
+    'John Doe',
+    'admin@example.com',
+    '$2y$10$w8bV7fX2SgH1gR8Z2qK7eO6mJ2hL9vN3pQ5rT7tY1uI3oP5sS6uD6', -- 'admin' का BCRYPT सुरक्षित हैश
+    'Creative Full Stack Web Developer',
+    'I build clean, modern, and highly performant web applications from scratch.',
+    'profile.jpg',
+    'about.jpg',
+    'I am a passionate developer based in India, specializing in PHP, MySQL, and modern frontend frameworks.',
+    'With over 5 years of industry experience, I have helped numerous startups and businesses turn their ideas into robust digital products. I focus on clean code, responsive design, and exceptional user experience.',
+    24,  -- Projects Done
+    18,  -- Happy Clients
+    5,   -- Years of Experience
+    'Mumbai, India',
+    '+91 98765 43210',
+    'Mon - Fri: 09:00 AM - 06:00 PM',
+    'https://facebook.com/username',
+    'https://twitter.com/username',
+    'https://instagram.com/username',
+    'https://linkedin.com/in/username',
+    'https://github.com/username'
+);
+
+-- 2. डिफ़ॉल्ट सर्विसेज (Services)
+INSERT INTO `services` (`name`, `icon_class`, `description`) VALUES 
+('Web Development', 'bi-code-slash', 'Building responsive, fast, and secure web applications using modern technologies.'),
+('UI/UX Design', 'bi-palette', 'Creating intuitive wireframes and user-friendly interfaces that align with your brand.'),
+('SEO Optimization', 'bi-search', 'Optimizing your website rank higher on search engines and attract organic traffic.');
+
+-- 3. डिफ़ॉल्ट स्किल्स (Skills)
+INSERT INTO `skills` (`name`, `percentage`) VALUES 
+('HTML5 & CSS3', 95),
+('JavaScript', 85),
+('PHP & MySQL', 90),
+('Bootstrap / Tailwind', 88);
+
+-- 4. प्रोजेक्ट कैटेगरीज (Project Categories)
+INSERT INTO `project_categories` (`id`, `name`, `slug`) VALUES 
+(1, 'Web Apps', 'web-apps'),
+(2, 'E-Commerce', 'e-commerce'),
+(3, 'UI/UX Concepts', 'ui-ux-concepts');
+
+-- 5. डिफ़ॉल्ट प्रोजेक्ट्स (Projects)
+INSERT INTO `projects` (`category_id`, `title`, `description`, `image`, `live_link`, `github_link`) VALUES 
+(1, 'Personal Portfolio', 'A fully responsive portfolio website built with HTML, CSS, and PHP.', 'portfolio.jpg', 'https://example.com/live', 'https://github.com/example/repo'),
+(2, 'Online Tech Store', 'An e-commerce platform with a working shopping cart and payment gateway.', 'ecommerce.jpg', 'https://example.com/shop', 'https://github.com/example/shop'),
+(3, 'Dashboard Analytics Design', 'A clean and dark-themed admin dashboard layout.', 'dashboard.jpg', NULL, 'https://github.com/example/design');
+
+-- 6. डिफ़ॉल्ट टेस्टीमोनियल्स (Testimonials)
+INSERT INTO `testimonials` (`client_name`, `client_title`, `client_image`, `rating`, `quote`) VALUES 
+('Alex Morgan', 'CEO, TechStart Inc.', 'client1.jpg', 5, 'John is an absolute professional. He delivered our e-commerce platform ahead of schedule and the code quality is top-notch.'),
+('Sarah Jenkins', 'Product Manager', 'client2.jpg', 4, 'Great communication and excellent design skills. He transformed our messy layout into a beautiful, fluid web app.');
+
+-- 7. डिफ़ॉल्ट कॉन्टैक्ट मैसेजेस (Contact Messages)
+INSERT INTO `contact_messages` (`name`, `email`, `subject`, `message`) VALUES 
+('Robert Frost', 'robert@example.com', 'Project Inquiry', 'Hello John, I would love to discuss a website redesign project with you. Please let me know your availability.');
+
+-- 8. डिफ़ॉल्ट न्यूजलेटर सब्सक्राइबर्स (Subscribers)
+INSERT INTO `subscribers` (`email`) VALUES 
+('subscriber1@example.com'),
+('subscriber2@example.com');

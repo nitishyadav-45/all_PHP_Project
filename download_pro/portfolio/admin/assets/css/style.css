@@ -1,0 +1,172 @@
+        
+        .sidebar-desktop {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 25px 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            color: white;
+            z-index: 1000;
+        }
+        
+        /* Mobile Offcanvas Sidebar Styling */
+        .offcanvas-sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            width: 280px;
+        }
+        
+        .sidebar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar-profile {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-profile img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu li a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        /* Main Layout Content Area */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            width: calc(100% - 260px);
+        }
+        
+        /* Top Navigation Header bar */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .top-navbar h1 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #2d3436;
+            font-weight: 700;
+        }
+        
+        /* Navbar Profile Dropdown Menu Styling */
+        .nav-profile-dropdown .dropdown-toggle::after {
+            display: none;
+        }
+        
+        .nav-profile-img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #667eea;
+        }
+
+
+         /* Top Navigation Header bar */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .top-navbar h1 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #2d3436;
+            font-weight: 700;
+        }
+        
+        /* Navbar Profile Dropdown Menu Styling */
+        .nav-profile-dropdown .dropdown-toggle::after {
+            display: none;
+        }
+        
+        .nav-profile-img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #667eea;
+        }
+        
+        .dropdown-menu-custom {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            min-width: 230px;
+        }
+
+
+         /* Responsive Framework View Breaks */
+        @media (max-width: 991px) {
+            .sidebar-desktop {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+                width: 100%;
+            }
+            .top-navbar {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            .content-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+        }

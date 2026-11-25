@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard | Govt. Polytechnic Atraulia</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* --- CSS Variables & Theming --- */
+        :root {
+            --primary: #4f46e5;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+
+            /* Light Mode Defaults */
+            --bg-body: linear-gradient(135deg, #eef2ff, #ecfeff);
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --sidebar-bg: linear-gradient(180deg, #1e293b, #0f172a);
+            --border-color: #e2e8f0;
+            --input-bg: #f1f5f9;
+            /*--topbar-bg: rgba(255, 255, 255, 0.75);*/
+            --topbar-bg: linear-gradient(180deg, #1e293b, #0f172a);
+
+        }
+
+        /* Dark Mode Overrides */
+        body.dark-mode {
+            --bg-body: linear-gradient(135deg, #0f172a, #1e293b);
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --sidebar-bg: linear-gradient(180deg, #020617, #0f172a);
+            --border-color: #334155;
+            --input-bg: #334155;
+            --topbar-bg: rgba(30, 41, 59, 0.85);
+        }
+
+        /* --- Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            height: 100vh;
+            /* Fixed height to full screen */
+            overflow-y: auto;
+            /* Scrollable if content is long */
+            background: var(--sidebar-bg);
+            color: #fff;
+            padding: 1.2rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hide scrollbar for sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .brand small {
+            display: block;
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+
+        .nav-link.custom-link {
+            color: #cbd5e1;
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.45rem;
+            transition: 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .nav-link.custom-link:hover,
+        .nav-link.custom-link.active {
+            background: linear-gradient(90deg, rgba(79, 70, 229, 0.9), rgba(6, 182, 212, 0.85));
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        /* --- Topbar --- */
+        .topbar {
+            background: var(--topbar-bg);
+            color: var(--light);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+            margin-bottom: 1.5rem;
+            position: sticky;
+            /* Sticky navbar */
+            top: 1rem;
+            z-index: 990;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 12px;
+            border: none;
+            background: var(--input-bg);
+            height: 46px;
+            color: var(--text-main);
+        }
+
+        .search-box i {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* --- Cards & Stats --- */
+        .card-box {
+            border: none;
+            border-radius: 20px;
+            background: var(--bg-card);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+            transition: 0.3s ease;
+            overflow: hidden;
+            color: var(--text-main);
+        }
+
+        .card-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+        }
+
+        .stat-card {
+            position: relative;
+            color: #fff;
+            padding: 1.4rem;
+            min-height: 140px;
+        }
+
+        .gradient-1 {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .gradient-2 {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+        }
+
+        .gradient-3 {
+            background: linear-gradient(135deg, #10b981, #22c55e);
+        }
+
+        .gradient-4 {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.18);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        /* --- Tables & Badges --- */
+        .table thead th {
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        .badge-soft {
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .badge-present {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-complete {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* --- Profile & Quick Actions --- */
+        .profile-card {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(6, 182, 212, 0.12));
+            border-radius: 20px;
+            padding: 1.2rem;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #cbd5e1;
+        }
+
+        .quick-btn {
+            border: none;
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            background: var(--input-bg);
+            color: var(--text-main);
+            transition: 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .quick-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .ann-item {
+            padding: 0.85rem 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .ann-item:last-child {
+            border-bottom: none;
+        }
+
+        /* --- Mobile Toggle Logic --- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        /* Mobile Sidebar State */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                /* Hide by default on mobile */
+                width: 280px;
+                height: 100vh;
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .topbar {
+                top: 0;
+                border-radius: 0 0 18px 18px;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Dark Mode Toggle Button */
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--input-bg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+
+            <div class="col-lg-2">
+                <div class="sidebar" id="sidebar">
+                    <div class="mb-4 d-flex justify-content-between align-items-center">
+                        <div class="brand">
+                            Teacher Panel
+                            <small>Govt. Polytechnic<br>Atraulia Azamgarh</small>
+                        </div>
+                        <button class="btn btn-sm text-white d-lg-none" id="closeSidebar"><i
+                                class="bi bi-x-lg"></i></button>
+                    </div>
+
+                    <nav class="nav flex-column">
+                        <a href="#" class="nav-link custom-link active"><i class="bi bi-grid-fill"></i> Dashboard</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-person-workspace"></i> My Classes</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-calendar-check"></i> Attendance</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-journal-text"></i> Assignments</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-bar-chart-line-fill"></i> Results</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-bell-fill"></i> Notices</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-gear-fill"></i> Settings</a>
+                        <a href="#" class="nav-link custom-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="col-lg-10">
+                <div class="main-content px-3 px-lg-4 pb-4">
+
+                    <div class="topbar">
+                        <div class="row align-items-center g-3">
+                            <div class="col-auto d-lg-none">
+                                <button class="btn btn-light rounded-circle shadow-sm" id="openSidebar">
+                                    <i class="bi bi-list"></i>
+                                </button>
+                            </div>
+
+                            <div class="col col-lg-5">
+                                <h4 class="mb-1 fw-bold" id="greetingMessage">Welcome, Teacher</h4>
+                                <p class="mb-0 text-secondary small d-none d-sm-block">Manage classes, attendance,
+                                    assignments and reports.</p>
+                            </div>
+
+                            <div class="col-12 col-md-4 col-lg-4 order-last order-md-0">
+                                <div class="search-box position-relative">
+                                    <i class="bi bi-search"></i>
+                                    <input type="text" class="form-control" placeholder="Search here...">
+                                </div>
+                            </div>
+
+                            <div class="col-auto ms-auto d-flex align-items-center gap-3">
+                                <button class="theme-toggle-btn" id="themeToggle" title="Toggle Dark Mode">
+                                    <i class="bi bi-moon-fill" id="themeIcon"></i>
+                                </button>
+
+                                <button class="btn btn-light rounded-circle shadow-sm position-relative">
+                                    <i class="bi bi-bell"></i>
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                                </button>
+                                <img src="https://via.placeholder.com/52" class="avatar" alt="teacher">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card-box stat-card gradient-1">
+                                <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                                <div class="stat-number">520</div>
+                                <div>Total Students</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card-box stat-card gradient-2">
+                                <div class="stat-icon"><i class="bi bi-book-half"></i></div>
+                                <div class="stat-number">18</div>
+                                <div>Active Classes</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card-box stat-card gradient-3">
+                                <div class="stat-icon"><i class="bi bi-check2-square"></i></div>
+                                <div class="stat-number">92%</div>
+                                <div>Attendance Rate</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card-box stat-card gradient-4">
+                                <div class="stat-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                                <div class="stat-number">34</div>
+                                <div>Pending Tasks</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-8">
+                            <div class="card-box p-4 h-100">
+                                <h5 class="section-title mb-3">Weekly Attendance Overview</h5>
+                                <div style="height: 300px;">
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card-box p-4 h-100">
+                                <h5 class="section-title mb-3">Subject Performance</h5>
+                                <div style="height: 300px; position: relative;">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-xl-8">
+                            <div class="card-box p-4 mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="section-title mb-0">Today's Schedule</h5>
+                                    <button class="btn btn-primary btn-sm rounded-pill px-3">View All</button>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject</th>
+                                                <th>Class</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Computer Science</td>
+                                                <td>CSE 2nd Year</td>
+                                                <td>09:00 AM - 10:00 AM</td>
+                                                <td><span class="badge-soft badge-complete">Completed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mathematics</td>
+                                                <td>Diploma 1st Year</td>
+                                                <td>11:00 AM - 12:00 PM</td>
+                                                <td><span class="badge-soft badge-present">Ongoing</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Workshop Practice</td>
+                                                <td>Mechanical 2nd Year</td>
+                                                <td>01:00 PM - 02:30 PM</td>
+                                                <td><span class="badge-soft badge-pending">Upcoming</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Electronics</td>
+                                                <td>EE 3rd Year</td>
+                                                <td>03:00 PM - 04:00 PM</td>
+                                                <td><span class="badge-soft badge-pending">Upcoming</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="card-box p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="section-title mb-0">Recent Assignments</h5>
+                                    <button class="btn btn-outline-primary btn-sm rounded-pill px-3">Upload New</button>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="p-3 rounded-4" style="background: var(--input-bg);">
+                                            <h6 class="fw-bold mb-1">Data Structures Assignment</h6>
+                                            <p class="text-secondary small mb-2">CSE 2nd Year</p>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Submission: 78%</span>
+                                                <span class="text-primary fw-semibold">Due: 02 Apr</span>
+                                            </div>
+                                            <div class="progress mt-2" style="height: 6px;">
+                                                <div class="progress-bar bg-primary" style="width:78%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="p-3 rounded-4" style="background: var(--input-bg);">
+                                            <h6 class="fw-bold mb-1">Engineering Maths Sheet</h6>
+                                            <p class="text-secondary small mb-2">Diploma 1st Year</p>
+                                            <div class="d-flex justify-content-between small">
+                                                <span>Submission: 61%</span>
+                                                <span class="text-warning fw-semibold">Due: 04 Apr</span>
+                                            </div>
+                                            <div class="progress mt-2" style="height: 6px;">
+                                                <div class="progress-bar bg-warning" style="width:61%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <div class="card-box profile-card mb-4">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="https://via.placeholder.com/60" class="avatar" alt="profile">
+                                    <div>
+                                        <h6 class="mb-1 fw-bold">Mr. Rajesh Kumar</h6>
+                                        <p class="mb-0 text-secondary small">Lecturer, Computer Science</p>
+                                    </div>
+                                </div>
+                                <hr style="border-color: rgba(255,255,255,0.2);">
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <h6 class="fw-bold mb-0">18</h6>
+                                        <small class="text-secondary">Classes</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6 class="fw-bold mb-0">520</h6>
+                                        <small class="text-secondary">Students</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6 class="fw-bold mb-0">34</h6>
+                                        <small class="text-secondary">Tasks</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-box p-4 mb-4">
+                                <h5 class="section-title">Quick Actions</h5>
+                                <div class="row g-3">
+                                    <div class="col-6"><button class="quick-btn"><i
+                                                class="bi bi-plus-circle me-2"></i>Add Class</button></div>
+                                    <div class="col-6"><button class="quick-btn"><i
+                                                class="bi bi-check2-square me-2"></i>Attendance</button></div>
+                                    <div class="col-6"><button class="quick-btn"><i class="bi bi-upload me-2"></i>Upload
+                                            Notes</button></div>
+                                    <div class="col-6"><button class="quick-btn"><i
+                                                class="bi bi-file-text me-2"></i>Results</button></div>
+                                </div>
+                            </div>
+
+                            <div class="card-box p-4">
+                                <h5 class="section-title">Announcements</h5>
+
+                                <div class="ann-item">
+                                    <h6 class="mb-1">Semester Examination Notice</h6>
+                                    <p class="small text-secondary mb-0">Examination forms must be verified before 5
+                                        April.</p>
+                                </div>
+
+                                <div class="ann-item">
+                                    <h6 class="mb-1">Faculty Meeting</h6>
+                                    <p class="small text-secondary mb-0">Meeting scheduled on Monday at 11:30 AM.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- Dynamic Greeting Logic ---
+        function setGreeting() {
+            const hour = new Date().getHours();
+            const greetingElement = document.getElementById('greetingMessage');
+            let greeting = 'Good Evening';
+
+            if (hour >= 3 && hour < 12) {
+                greeting = 'Good Morning';
+            } else if (hour >= 12 && hour < 17) {
+                greeting = 'Good Afternoon';
+            }
+
+            greetingElement.innerText = `${greeting}, Teacher`;
+        }
+        setGreeting(); // Run greeting function on load
+
+        // --- 1. Sidebar Toggle Logic (Mobile) ---
+        const sidebar = document.getElementById('sidebar');
+        const openBtn = document.getElementById('openSidebar');
+        const closeBtn = document.getElementById('closeSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        openBtn.addEventListener('click', toggleSidebar);
+        closeBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // --- 2. Dark Mode Logic ---
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        // Check local storage for preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+                localStorage.setItem('theme', 'dark');
+                updateChartsTheme('dark');
+            } else {
+                themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+                localStorage.setItem('theme', 'light');
+                updateChartsTheme('light');
+            }
+        });
+
+        // --- 3. Chart.js Implementation ---
+
+        // Chart 1: Attendance Bar Chart
+        const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+        let attendanceChart = new Chart(ctxAttendance, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                datasets: [{
+                    label: 'Attendance %',
+                    data: [85, 92, 88, 95, 89, 91],
+                    backgroundColor: '#4f46e5',
+                    borderRadius: 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: '#e2e8f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // Chart 2: Performance Doughnut Chart
+        const ctxPerformance = document.getElementById('performanceChart').getContext('2d');
+        let performanceChart = new Chart(ctxPerformance, {
+            type: 'doughnut',
+            data: {
+                labels: ['Excellent', 'Good', 'Average', 'Needs Improvement'],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#64748b' } }
+                }
+            }
+        });
+
+        // Helper to update chart colors on Dark Mode
+        function updateChartsTheme(mode) {
+            const gridColor = mode === 'dark' ? '#334155' : '#e2e8f0';
+            const textColor = mode === 'dark' ? '#94a3b8' : '#64748b';
+
+            attendanceChart.options.scales.y.grid.color = gridColor;
+            attendanceChart.options.scales.x.ticks.color = textColor;
+            attendanceChart.options.scales.y.ticks.color = textColor;
+            attendanceChart.update();
+
+            performanceChart.options.plugins.legend.labels.color = textColor;
+            performanceChart.update();
+        }
+
+    </script>
+</body>
+
+</html>

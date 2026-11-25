@@ -1,0 +1,234 @@
+      /* --- GLOBAL VARIABLES & RESET --- */
+        :root {
+            --primary-color: #6f42c1; /* Purple from logo */
+            --secondary-color: #dc3545; /* Red from logo */
+            --accent-color: #ffc107; /* Yellow from logo */
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-gray: #d1d1d1;
+            --text-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-gray);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        /* --- SCROLLBAR CUSTOMIZATION --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color); 
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            padding: 15px 0;
+            transition: all 0.4s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+
+        .nav-link {
+            color: var(--text-gray) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn-login-nav {
+            background-color: var(--primary-color);
+            color: white !important;
+            border-radius: 25px;
+            padding: 8px 25px;
+            border: none;
+        }
+
+        .btn-login-nav:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+         @media (max-width: 768px) {
+        .carousel-caption h5 {
+            font-size: 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 0 auto 30px auto;
+            display: block;
+        }
+
+        .section-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+
+    @keyframes scrollUp {
+        0% {
+            top: 100%;
+        }
+
+        100% {
+            top: -150%;
+        }
+
+        /* Adjust based on content length */
+    }
+
+
+        /* footer */
+
+         footer {
+        background-color: #000;
+        padding: 60px 0 20px;
+        color: #888;
+        border-top: 3px solid var(--secondary-color);
+    }
+
+    .footer-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: #888;
+        transition: 0.3s;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+    }
+
+    .social-icons a {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background: #222;
+        color: white;
+        border-radius: 50%;
+        margin-right: 10px;
+        transition: 0.3s;
+    }
+
+    .social-icons a:hover {
+        background: var(--primary-color);
+        transform: rotate(360deg);
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px;
+        border: 2px solid #333;
+    }
+
+
+
+
+    /* dropdown */
+    /* Navbar ki basic styling */
+
+
+/* --- Dropdown Logic --- */
+
+/* Dropdown container */
+.dropdown {
+    position: relative; /* Zaroori hai taki child elements iske hisaab se position hon */
+    display: inline-block;
+}
+
+/* Dropdown Content (Jo chhupa hua hai) */
+.dropdown-content {
+    display: none; /* Default mein hidden rahega */
+    position: absolute; /* Navbar ke upar float karega */
+    /* background-color: #f9f9f9; */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Dropdown links */
+.dropdown-content a {
+    background-color: #121212;
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+/* Dropdown links hover effect */
+.dropdown a:hover {
+     color: var(--primary-color) !important;
+}
+
+/* Jab "Services" par hover karein, tab dropdown dikhayein */
+.dropdown:hover .dropdown-content {
+    display: block;
+}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024">
+    <title>Student Dashboard - ID Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Desktop view on all screens wrapper */
+        .desktop-wrapper {
+            display: flex;
+            min-width: 1024px; /* Forces desktop layout */
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background-color: #262930;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .sidebar-header {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #3c4048;
+        }
+        .nav-link {
+            color: #aeb2b7;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+            background-color: #31353d;
+        }
+        .nav-link i {
+            width: 25px;
+        }
+
+        /* Top Navbar */
+        .top-nav {
+            background-color: #262930;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ID Card Styling */
+        .id-card-wrapper {
+            background: #fff;
+            width: 750px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* ID Card Header Background shapes */
+        .card-header-bg {
+            position: relative;
+            text-align: center;
+            padding: 20px 20px;
+            background: #fff;
+            border-bottom: 2px solid #eef0f3;
+        }
+        /* Top Blue Shapes */
+        .card-header-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 150px; height: 100px;
+            background: #00bcd4;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            z-index: 1;
+        }
+        .card-header-bg::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 250px; height: 50px;
+            background: #3b7dc6;
+            border-bottom-left-radius: 50px;
+            z-index: 1;
+        }
+        .card-header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .college-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid #2b3d6b;
+        }
+        .college-name {
+            color: #2b3d6b;
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.6rem;
+        }
+        .college-address {
+            color: #2b3d6b;
+            margin: 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .affiliation {
+            color: #555;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Card Body */
+        .card-body-custom {
+            display: flex;
+            padding: 0;
+        }
+
+        /* Left Side - Photo Container */
+        .photo-section {
+            width: 35%;
+            background-color: #2b3d6b;
+            padding: 25px 25px 40px 25px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+        .student-photo {
+            width: 180px;
+            height: 220px;
+            background: #fff;
+            object-fit: cover;
+            border: 4px solid #fff;
+        }
+        /* Stamp overlapping photo */
+        .stamp {
+            position: absolute;
+            bottom: 20px;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            opacity: 0.85;
+            z-index: 3;
+        }
+
+        /* Right Side - Details */
+        .details-section {
+            width: 65%;
+            padding: 30px;
+            background-color: #f8fbff;
+            position: relative;
+        }
+        
+        /* STUDENT CARD Badge */
+        .badge-title {
+            background-color: #3b7dc6;
+            color: white;
+            display: inline-block;
+            padding: 10px 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 0 25px 25px 0;
+            margin-left: -30px; /* Pulls it into the photo section slightly */
+            margin-bottom: 25px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .student-details {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+        }
+        .student-details strong {
+            color: #1a252f;
+            display: inline-block;
+            width: 120px;
+        }
+
+        /* Signatures */
+        .signature-area {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #444;
+        }
+        .signature-area .sign {
+            border-top: 1px solid #777;
+            padding-top: 5px;
+            width: 120px;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.1rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            width: 750px;
+            margin: 0 auto;
+        }
+
+        /* ---------- Print Media Queries ---------- */
+        @media print {
+            /* Hide everything that has this class */
+            .d-print-none {
+                display: none !important;
+            }
+            body, html {
+                background: white;
+                margin: 0;
+                padding: 0;
+            }
+            .desktop-wrapper {
+                min-width: 100%;
+                display: block;
+            }
+            .id-card-wrapper {
+                margin: 0;
+                box-shadow: none;
+                border: 2px solid #ccc;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact; 
+            }
+            /* Ensure colors print correctly */
+            /*.photo-section {
+                background-color: #2b3d6b !important;
+            }
+            .badge-title {
+                background-color: #3b7dc6 !important;
+                color: white !important;
+            }
+            .card-header-bg::before {
+                background: #00bcd4 !important;
+            }
+            .card-header-bg::after {
+                background: #3b7dc6 !important;
+            }*/
+        }
+    </style>
+</head>
+<body>
+
+<div class="desktop-wrapper">
+
+    <div class="sidebar d-print-none">
+        <div class="sidebar-header">
+            Student Dashboard
+        </div>
+        <ul class="nav flex-column mt-3">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-calendar-check"></i> Attendance</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> Reports</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-umbrella-beach"></i> Holiday</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-id-badge"></i> View id card</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-id-card"></i> Generate ID Card</a></li>
+            <li class="nav-item mt-4"><a href="#" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        
+        <div class="top-nav d-print-none">
+            <div style="width: 200px;"></div> <div class="fw-bold">Welcome nitish kumar</div>
+            <div class="d-flex align-items-center">
+                <span class="me-2">nitish kumar</span>
+                <img src="https://ui-avatars.com/api/?name=Nitish+Kumar&background=random&rounded=true" alt="User" width="30" height="30">
+            </div>
+        </div>
+
+        <div class="flex-grow-1 d-flex flex-column align-items-center bg-light pb-5">
+            
+            <div class="id-card-wrapper">
+                
+                <div class="card-header-bg">
+                    <div class="card-header-content">
+                        <img src="https://via.placeholder.com/150/ffffff/000000?text=Logo" alt="College Logo" class="college-logo">
+                        <div>
+                            <h2 class="college-name">Government Polytechnic Atraulia</h2>
+                            <h4 class="college-address">Azamgarh, Uttar Pradesh</h4>
+                            <p class="affiliation mb-0">Approved by AICTE New Delhi and Affiliated to B.T.E. Lucknow</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body-custom">
+                    
+                    <div class="photo-section">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Student Photo" class="student-photo">
+                        <img src="https://png.pngtree.com/png-vector/20221021/ourmid/pngtree-red-grunge-approved-stamp-png-image_6352988.png" alt="Stamp" class="stamp">
+                    </div>
+
+                    <div class="details-section">
+                        <div class="badge-title">STUDENT CARD</div>
+                        
+                        <div class="student-details">
+                            <div><strong>Enrollment No:</strong> E23418935500008</div>
+                            <div><strong>Name:</strong> Nitish Kumar Yadav</div>
+                            <div><strong>Father:</strong> Ramayan Yadav</div>
+                            <div><strong>DOB:</strong> 2006-09-21</div>
+                            <div><strong>Branch:</strong> CSE</div>
+                            <div><strong>Year:</strong> 2023-2024</div>
+                            <div><strong>Mobile No:</strong> 9517648760</div>
+                        </div>
+
+                        <div class="signature-area">
+                            <div>
+                                <div class="sign">Principal</div>
+                                <div class="mt-1 text-muted">Principal Signature</div>
+                            </div>
+                            <div>
+                                <div class="sign">Amit</div>
+                                <div class="mt-1 text-muted">HOD Signature</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons d-print-none mt-2">
+                <button class="btn btn-primary" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i> Print Card
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

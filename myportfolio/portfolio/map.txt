@@ -1,0 +1,84 @@
+
+
+
+portfolio/
+
+├── index.php
+├── about.php
+├── projects.php
+├── blog.php
+├── testimonials.php
+├── contact.php
+├── resume.php
+
+├── admin/
+│
+│   ├── login.php
+│   ├── otp-verify.php
+│   ├── dashboard.php
+│   ├── profile.php
+│
+│   ├── projects/
+│   │   ├── add.php
+│   │   ├── edit.php
+│   │   └── delete.php
+│
+│   ├── blogs/
+│   ├── testimonials/
+│   ├── skills/
+│
+│   └── logout.php
+│
+├── api/
+│   ├── contact.php
+│   ├── visitor.php
+│   ├── otp.php
+│
+├── config/
+│   ├── db.php
+│   ├── mail.php
+│   └── auth.php
+│
+├── uploads/
+│   ├── projects/
+│   ├── resume/
+│   ├── blogs/
+│   └── profile/
+│
+├── assets/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── vendor/
+│
+└── database.sql
+
+
+
+
+
+New Admin Dashbord
+
+
+admin/
+
+├── includes/
+│   ├── header.php
+│   ├── sidebar.php
+│   ├── navbar.php
+│   └── footer.php
+│
+├── dashboard.php
+│
+├── skills/
+│   ├── index.php
+│   ├── add.php
+│   ├── edit.php
+│   └── delete.php
+│
+├── education/
+├── experience/
+├── projects/
+├── blogs/
+├── testimonials/
+├── resume/

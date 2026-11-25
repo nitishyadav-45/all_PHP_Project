@@ -1,0 +1,573 @@
+02/04/2026
+
+student/registration.php  // sirf php code 
+
+
+<?php
+include("../config/database.php");
+
+$message = "";
+$msg_type = ""; // success / danger / warning
+
+if(isset($_POST['register'])) {
+
+    $full_name = $_POST['full_name'];
+    $branch    = $_POST['branch'];
+    $semester  = $_POST['semester'];
+    $year      = $_POST['year'];
+    $mobile    = $_POST['mobile'];
+    $email     = $_POST['email'];
+    $password  = $_POST['password'];
+    $confirm   = $_POST['confirm_password'];
+
+    if($password !== $confirm){
+        $message = "Passwords do not match!";
+        $msg_type = "warning";
+    } else {
+
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO students (full_name, branch, semester, year, mobile, email, password)
+                VALUES ('$full_name', '$branch', '$semester', '$year', '$mobile', '$email', '$hashed_password')";
+
+        if(mysqli_query($conn, $sql)){
+            $message = "🎉 Registration Successful! You can login now.";
+            $msg_type = "success";
+        } else {
+            $message = "❌ Error: Email or Mobile may already exist.";
+            $msg_type = "danger";
+        }
+    }
+}
+?>
+
+
+
+
+
+Teacher/Registration.php
+
+
+<?php
+include("../config/database.php");
+
+$message = "";
+$msg_type = ""; // success, danger, warning
+
+if(isset($_POST['register'])) {
+
+    $full_name = $_POST['full_name'];
+    $mobile    = $_POST['mobile'];
+    $email     = $_POST['email'];
+    $password  = $_POST['password'];
+    $confirm   = $_POST['confirm_password'];
+
+    if($password !== $confirm){
+        $message = "Passwords do not match!";
+        $msg_type = "warning";
+    } else {
+
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO teachers (full_name, mobile, email, password)
+                VALUES ('$full_name', '$mobile', '$email', '$hashed_password')";
+
+        if(mysqli_query($conn, $sql)){
+            $message = "🎉 Registration Successful! You can login now.";
+            $msg_type = "success";
+        } else {
+            $message = "❌ Error: Email or Mobile may already exist.";
+            $msg_type = "danger";
+        }
+    }
+}
+?>
+
+
+
+03/04/2026
+
+student/add_grievance.php
+
+
+<?php
+session_start();
+include("../config/database.php");
+
+if(!isset($_SESSION['student_id'])){
+    header("Location: ../auth/login.php");
+    exit();
+}
+
+$student_id = $_SESSION['student_id'];
+
+// Student Data Fetch
+$student = mysqli_fetch_assoc(mysqli_query($conn,
+"SELECT * FROM students WHERE id='$student_id'"));
+
+$branch = $student['branch'];
+
+// Same Branch Teachers
+$teachers = mysqli_query($conn,
+"SELECT * FROM teachers WHERE branch='$branch'");
+
+$msg = "";
+
+// Form Submit
+if(isset($_POST['submit'])){
+
+    $title = mysqli_real_escape_string($conn,$_POST['title']);
+    $description = mysqli_real_escape_string($conn,$_POST['description']);
+    $category = $_POST['category'];
+    $send_to = $_POST['send_to'];
+
+    $teacher_id = NULL;
+
+    if($send_to == 'teacher'){
+        $teacher_id = $_POST['teacher_id'];
+    }
+
+    mysqli_query($conn,"INSERT INTO grievances 
+    (student_id, teacher_id, send_to, title, description, category)
+    VALUES('$student_id','$teacher_id','$send_to','$title','$description','$category')");
+
+    $msg = "Grievance Submitted Successfully!";
+}
+?>
+
+
+
+admin/manage_grievance.php
+
+<?php
+session_start();
+include("../config/database.php");
+
+if(!isset($_SESSION['admin_id'])){
+    header("Location: ../auth/adminlogin.php");
+    exit();
+}
+
+// Update (Status + Reply)
+if(isset($_POST['update'])){
+    $gid = $_POST['gid'];
+    $status = $_POST['status'];
+    $reply = mysqli_real_escape_string($conn,$_POST['reply']);
+
+    mysqli_query($conn,"UPDATE grievances 
+    SET status='$status', admin_reply='$reply' 
+    WHERE id='$gid'");
+}
+
+// Delete
+// if(isset($_GET['delete'])){
+//     $id = $_GET['delete'];
+//     mysqli_query($conn,"DELETE FROM grievances WHERE id='$id'");
+// }
+
+// Filter
+$where = "1";
+
+if(isset($_GET['branch']) && $_GET['branch'] != ""){
+    $branch = $_GET['branch'];
+    $where .= " AND s.branch='$branch'";
+}
+
+if(isset($_GET['status']) && $_GET['status'] != ""){
+    $status = $_GET['status'];
+    $where .= " AND g.status='$status'";
+}
+
+// Fetch Data
+$query = mysqli_query($conn,"
+SELECT g.*, s.full_name, s.email, s.mobile, s.branch, s.year 
+FROM grievances g
+JOIN students s ON g.student_id = s.id
+WHERE $where
+ORDER BY g.id DESC
+");
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Grievance Panel</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+    body {
+        background: #0f172a;
+        color: white;
+    }
+
+    .card {
+        /* background:#1e293b; */
+        border: none;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .btn-update {
+        background: linear-gradient(45deg, #3b82f6, #6366f1);
+        border: none;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        border: none;
+    }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+
+        <h3 class="text-center mb-4">Admin Grievance Panel</h3>
+
+        <!-- 🔍 FILTER -->
+        <form method="GET" class="row mb-4">
+
+            <div class="col-md-4">
+                <select name="branch" class="form-select">
+                    <option value="">All Branch</option>
+                    <option>Computer</option>
+                    <option>Mechanical</option>
+                    <option>Civil</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <select name="status" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn-primary w-100">Filter</button>
+            </div>
+
+        </form>
+
+        <?php while($row = mysqli_fetch_assoc($query)){ ?>
+
+        <div class="card p-4 shadow">
+
+            <!-- Student Info -->
+            <strong><?php echo $row['full_name']; ?></strong>
+            (<?php echo $row['branch']." - ".$row['year']; ?>)
+
+            <div class="mt-1">
+                Email: <?php echo $row['email']; ?> |
+                Mobile: <?php echo $row['mobile']; ?>
+            </div>
+
+            <!-- Title -->
+            <h5 class="mt-3"><?php echo $row['title']; ?></h5>
+
+            <!-- Category -->
+            <span class="badge bg-info"><?php echo $row['category']; ?></span>
+
+            <!-- Description -->
+            <p class="mt-2"><?php echo $row['description']; ?></p>
+
+            <!-- Status -->
+            <p>Status:
+                <span class="badge 
+<?php 
+if($row['status']=="pending") echo "bg-warning";
+elseif($row['status']=="in_progress") echo "bg-primary";
+else echo "bg-success";
+?>">
+                    <?php echo ucfirst($row['status']); ?>
+                </span>
+            </p>
+
+            <!-- FORM -->
+            <form method="POST">
+
+                <input type="hidden" name="gid" value="<?php echo $row['id']; ?>">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="status" class="form-select">
+                            <option value="pending" <?php if($row['status']=="pending") echo "selected"; ?>>Pending
+                            </option>
+                            <option value="in_progress" <?php if($row['status']=="in_progress") echo "selected"; ?>>In
+                                Progress</option>
+                            <option value="resolved" <?php if($row['status']=="resolved") echo "selected"; ?>>Resolved
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="text" name="reply" class="form-control" value="<?php echo $row['admin_reply']; ?>"
+                            placeholder="Write admin reply...">
+                    </div>
+                </div>
+
+                <div class="mt-3 d-flex justify-content-between">
+
+                    <button name="update" class="btn btn-update text-white btn-sm">
+                        Update
+                    </button>
+
+                    <a href="?delete=<?php echo $row['id']; ?>" onclick="return confirm('Delete this grievance?')"
+                        class="btn btn-delete btn-sm text-white">
+                        Delete
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <?php } ?>
+
+    </div>
+
+</body>
+
+</html>
+
+
+teacher/dashboard.php
+
+<?php
+session_start();
+include("../config/database.php");
+
+if(!isset($_SESSION['teacher_id'])){
+    header("Location: ../auth/login.php");
+    exit();
+}
+
+$teacher_name = $_SESSION['teacher_name'];
+$branch = $_SESSION['branch'];
+$semester = $_SESSION['semester'];
+$year = $_SESSION['year'];
+
+// $query = "SELECT * FROM id_card_requests 
+// WHERE teacher_id='$teacher_id' 
+// AND status='Pending_Teacher'";
+
+// image profile
+$teacher_image = $_SESSION['teacher_image'] ?? 'default.png';
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #f4f6f9;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 240px;
+        /* background: linear-gradient(180deg, #0d6efd, #6610f2); */
+        background: #212529;
+        padding-top: 70px;
+        color: white;
+    }
+
+    .sidebar a {
+        color: white;
+        display: block;
+        padding: 15px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+    }
+
+    .main-content {
+        margin-left: 240px;
+        padding: 20px;
+    }
+
+    .card-hover:hover {
+        transform: translateY(-8px);
+        transition: 0.3s;
+    }
+
+    /* Mobile Responsive Fixes */
+    @media(max-width:768px) {
+        .sidebar {
+            left: -260px;
+            /* Sidebar ko puri tarah hide karne ke liye */
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            /* Mobile par shadow */
+        }
+
+        .sidebar.active {
+            left: 0;
+            /* JS se jab class add hogi tab bahar aayega */
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        /* Navbar me welcome text ko mobile par hide karein taki layout na tute */
+        .welcome-text {
+            display: none !important;
+        }
+
+    }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark fixed-top shadow">
+        <div class="container-fluid">
+            <span class="navbar-brand">Teacher Dashboard</span>
+            <span class="text-white welcome-text d-none d-lg-block" style="font-weight:bold;   font-size:20px; position: absolute; left: 50%; transform: translateX(-50%);">
+                <?php echo " Welcome  $teacher_name";  ?>
+            </span>
+
+            
+
+            <div class="dropdown me-3">
+                <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                    <img src="uploads/teachers/<?php echo $teacher_image; ?>" class="rounded-circle me-2" width="40"
+                        height="40" style="object-fit:cover; border:2px solid #fff;">
+
+                    
+
+                    <span><?php echo $teacher_name; ?></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow ">
+                    <li>
+                        <a class="dropdown-item" href="profile.php">
+                            <i class="fas fa-user me-2 text-primary"></i> My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="change_password.php">
+                            <i class="fas fa-key me-2 text-warning"></i> Change Password
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="../auth/logout.php">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar ">
+        <!-- <h5 class="text-center mb-4">Menu</h5> -->
+        <a href="dashboard.php"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+        <a href="take_attendance.php"><i class="fas fa-calendar-check me-2"></i> Take Attendance</a>
+        <a href="view_attendance.php"> <i class="fas fa-clipboard-list me-2"></i>View Student Attendance</a>
+        <a href="monthly_report.php"><i class="fas fa-file-alt me-2"></i> Monthly Report</a>
+        <a href="view_holidays.php"><i class="fas fa-file-alt me-2"></i> View Holiday</a>
+        <a href="upload_syllabus.php"><i class="fas fa-file-alt me-2"></i> Add Syllabus</a>
+        <a href="teacher_leave_panel.php"><i class="fas fa-file-alt me-2"></i> manage Application Leave</a>
+        <a href="view_enquiries.php"><i class="fas fa-question-circle me-2"></i> Enquiries</a>
+        <a href="teacher_grievance.php"><i class="fas fa-question-circle me-2"></i> Grievance</a>
+        <a href="change_password.php"><i class="fas fa-key me-2"></i> Change Password</a>
+
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid " style="margin-top:100px;">
+
+            <!-- Class Info -->
+            <div class="card shadow p-4 mb-4 card-hover animate__animated animate__fadeInDown">
+                <h4>Your Assigned Class</h4>
+                <p class="mb-1"><strong>Name:</strong>
+                    <?php echo   $teacher_name;  ?> </p>
+                <p class="mb-1"><strong>Branch:</strong> <?php echo $branch; ?></p>
+                <p class="mb-1"><strong>Semester:</strong> <?php echo $semester; ?></p>
+                <p class="mb-0"><strong>Year:</strong> <?php echo $year; ?></p>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card text-center shadow p-4 card-hover"
+                        style="background:linear-gradient(135deg,#ff9a9e,#fad0c4);">
+                        <h5>Take Today's Attendance</h5>
+                        <p>Mark present/absent for students</p>
+                        <a href="take_attendance.php" class="btn btn-dark">Start Attendance</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card text-center shadow p-4 card-hover"
+                        style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);">
+                        <h5>View Monthly Report</h5>
+                        <p>Check class attendance summary</p>
+                        <a href="monthly_report.php" class="btn btn-dark">View Report</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-center shadow p-4 card-hover"
+                        style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);">
+                        <h5>Request id card</h5>
+                        <p>Check student id card</p>
+                        <a href="id_card_requests.php" class="btn btn-dark">Veiw</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-center shadow p-4 card-hover"
+                        style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);">
+                        <h5>all id card</h5>
+                        <p>Check student id card</p>
+                        <a href="all_id_cards.php" class="btn btn-dark">Veiw</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+

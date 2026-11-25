@@ -1,0 +1,298 @@
+/* --- HERO SLIDER --- */
+    .carousel-item {
+        height: 85vh;
+        min-height: 500px;
+    }
+
+    .carousel-item img {
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.4);
+        /* Darkens image for better text visibility */
+    }
+
+    .carousel-caption {
+        bottom: 30%;
+        z-index: 2;
+    }
+
+    .carousel-caption h5 {
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: fadeInDown 1s;
+    }
+
+    .carousel-caption p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        animation: fadeInUp 1s;
+    }
+
+    /* --- ABOUT SECTION (Main Bat Section) --- */
+    .about-section {
+        padding: 80px 0;
+        background-color: var(--card-bg);
+        position: relative;
+    }
+
+    .about-img-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 2px solid var(--primary-color);
+    }
+
+    .about-img-wrapper img {
+        width: 100%;
+        transition: transform 0.5s ease;
+    }
+
+    .about-img-wrapper:hover img {
+        transform: scale(1.1);
+    }
+
+    .section-title {
+        margin-bottom: 40px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title::after {
+        content: '';
+        width: 60px;
+        height: 3px;
+        background: var(--secondary-color);
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+    }
+
+    /* --- FEATURES CARDS --- */
+    .features-section {
+        padding: 80px 0;
+        background: var(--dark-bg);
+    }
+
+    .feature-card {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.4s ease;
+        border: 1px solid #333;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+        border-color: var(--primary-color);
+    }
+
+    .feature-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--accent-color);
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    /* --- LOGIN PORTAL SECTION --- */
+    .login-section {
+        padding: 80px 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    .login-card {
+        background: rgba(30, 30, 30, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        transition: all 0.4s;
+    }
+
+    .login-card:hover {
+        background: rgba(111, 66, 193, 0.2);
+        /* Purple tint on hover */
+        border-color: var(--primary-color);
+        transform: scale(1.05);
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-top: 15px;
+        transition: 0.3s;
+    }
+
+    .btn-student {
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        
+    }
+
+    .btn-teacher {
+        background: var(--secondary-color);
+        border: none;
+        color: white;
+    }
+
+    .btn-admin {
+        background: var(--accent-color);
+        border: none;
+        color: #121212;
+    }
+
+    .btn-student:hover {
+        background: #5a32a3;
+    }
+
+    .btn-teacher:hover {
+        background: #b02a37;
+    }
+
+    .btn-admin:hover {
+        background: #d39e00;
+    }
+
+    /* --- STATS SECTION --- */
+    .stats-section {
+        padding: 60px 0;
+        background-color: var(--card-bg);
+        border-top: 1px solid #333;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    /* --- NOTICE BOARD SECTION --- */
+    .notice-section {
+        padding: 80px 0;
+        background-color: #1a1a1a;
+        border-top: 1px solid #333;
+    }
+
+    .notice-box {
+        background: var(--card-bg);
+        border: 1px solid #333;
+        border-radius: 10px;
+        padding: 20px;
+        height: 400px;
+        /* Fixed height */
+        overflow: hidden;
+        position: relative;
+    }
+
+    .notice-header {
+        background: var(--primary-color);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .marquee-container {
+        height: 320px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .marquee-content {
+        position: absolute;
+        width: 100%;
+        animation: scrollUp 15s linear infinite;
+    }
+
+    .notice-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid var(--secondary-color);
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+
+    .notice-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+        cursor: pointer;
+    }
+
+    .notice-date {
+        font-size: 0.8rem;
+        color: var(--accent-color);
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .notice-text {
+        color: var(--text-gray);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    /* Stops animation on hover */
+    .marquee-container:hover .marquee-content {
+        animation-play-state: paused;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+     @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    
